@@ -1,14 +1,19 @@
-<p style="color: green"><%= notice %></p>
+<main>
+  <p style="color: green"><%= notice %></p>
 
-<h1>Tasks</h1>
 
-<div id="tasks">
-  <% @tasks.each do |task| %>
-    <%= render task %>
-    <p>
+  <h1 class="centre">Tasks</h1>
+
+  <div id="create_task_form">
+    <%= render "form", task: Task.new %>
+  </div>
+
+  <div id="tasks">
+    <% @tasks.each do |task| %>
+      <%= render task %>
+      <p>
       <%= link_to "Show this task", task %>
-    </p>
-  <% end %>
-</div>
-
-<%= link_to "New task", new_task_path %>
+      </p>
+    <% end %>
+  </div>
+</main>

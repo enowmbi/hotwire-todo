@@ -1,4 +1,4 @@
-main form{
+main{
   flex: 1;
   margin-left: 350px;
   margin-right: 350px;
@@ -13,4 +13,5 @@ main form{
   width: 100%;
   padding: 8px;
   font-size: 15px;
+  margin-bottom: 25px;
 }

@@ -1,14 +1,13 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: %i[ show edit update destroy ]
+  before_action :set_task, only: %i[show edit update destroy]
 
   # GET /tasks or /tasks.json
   def index
-    @tasks = Task.all
+    @tasks = Task.order("created_at desc")
   end
 
   # GET /tasks/1 or /tasks/1.json
-  def show
-  end
+  def show; end
 
   # GET /tasks/new
   def new
@@ -16,8 +15,7 @@ class TasksController < ApplicationController
   end
 
   # GET /tasks/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /tasks or /tasks.json
   def create
@@ -25,9 +23,20 @@ class TasksController < ApplicationController
 
     respond_to do |format|
       if @task.save
+        format.turbo_stream do
+          render turbo_stream: [
+            turbo_stream.update('create_task_form', partial:"tasks/form", locals: { task: Task.new }),
+            turbo_stream.prepend("tasks", @task)
+          ]
+        end
         format.html { redirect_to task_url(@task), notice: "Task was successfully created." }
         format.json { render :show, status: :created, location: @task }
       else
+        format.turbo_stream do
+          render turbo_stream: [
+            turbo_stream.update('create_task_form', partial:"tasks/form", locals: { task: @task }),
+          ]
+        end
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @task.errors, status: :unprocessable_entity }
       end
@@ -58,13 +67,13 @@ class TasksController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_task
-      @task = Task.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_task
+    @task = Task.find(params[:id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def task_params
-      params.require(:task).permit(:title, :status)
-    end
+  # Only allow a list of trusted parameters through.
+  def task_params
+    params.require(:task).permit(:title, :status)
+  end
 end
