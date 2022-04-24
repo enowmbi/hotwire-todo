@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
-  resources :tasks
   root "tasks#index"
+  resources :tasks do
+    member do
+      post :edit
+    end
+  end
 end

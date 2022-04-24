@@ -10,7 +10,8 @@
     <%= task.status %>
   </div>
   <div class="links-and-buttons">
-    <%= link_to "Show this task", task %>
+    <%= link_to_unless_current "Show this task", task %>
+    <%= button_to "Edit this task", edit_task_path(task), method: :post %>
     <%= button_to "Destroy this task", task, method: :delete %>
   </div>
 

@@ -15,7 +15,13 @@ class TasksController < ApplicationController
   end
 
   # GET /tasks/1/edit
-  def edit; end
+  def edit
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.update(@task, partial: "tasks/form", locals:{ task: @task })
+      end
+    end
+  end
 
   # POST /tasks or /tasks.json
   def create
@@ -47,9 +53,15 @@ class TasksController < ApplicationController
   def update
     respond_to do |format|
       if @task.update(task_params)
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.update(@task, partial: "tasks/task", locals: { task: @task })
+        end
         format.html { redirect_to task_url(@task), notice: "Task was successfully updated." }
         format.json { render :show, status: :ok, location: @task }
       else
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.update(@task, partial: "tasks/form", locals: { task: @task })
+        end
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @task.errors, status: :unprocessable_entity }
       end
