@@ -26,7 +26,7 @@ class TasksController < ApplicationController
         format.turbo_stream do
           render turbo_stream: [
             turbo_stream.update('create_task_form', partial:"tasks/form", locals: { task: Task.new }),
-            turbo_stream.prepend("tasks", @task)
+            turbo_stream.prepend("tasks", partial: "tasks/task", locals: { task: @task })
           ]
         end
         format.html { redirect_to task_url(@task), notice: "Task was successfully created." }
