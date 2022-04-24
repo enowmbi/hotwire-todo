@@ -1,4 +1,5 @@
 <div id="<%= dom_id task %>">
+  <hr/>
   <div>
     <strong>Title:</strong>
     <%= task.title %>
@@ -8,8 +9,9 @@
     <strong>Status:</strong>
     <%= task.status %>
   </div>
-  <p>
-  <%= link_to "Show this task", task %>
-  </p>
+  <div class="links-and-buttons">
+    <%= link_to "Show this task", task %>
+    <%= button_to "Destroy this task", task, method: :delete %>
+  </div>
 
 </div>
