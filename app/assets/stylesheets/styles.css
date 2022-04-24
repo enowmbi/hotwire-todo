@@ -23,3 +23,7 @@ main{
     justify-content: space-between;
 }
 
+.success-flash-message{
+   color: green;
+}
+

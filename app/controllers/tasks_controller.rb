@@ -33,7 +33,8 @@ class TasksController < ApplicationController
           render turbo_stream: [
             turbo_stream.update('create_task_form', partial:"tasks/form", locals: { task: Task.new }),
             turbo_stream.prepend("tasks", partial: "tasks/task", locals: { task: @task }),
-            turbo_stream.update("task_counter", html: Task.count)
+            turbo_stream.update("task_counter", html: Task.count),
+            turbo_stream.update("notice", html:"Task was successfully created")
           ]
         end
         format.html { redirect_to task_url(@task), notice: "Task was successfully created." }
@@ -55,7 +56,10 @@ class TasksController < ApplicationController
     respond_to do |format|
       if @task.update(task_params)
         format.turbo_stream do
-          render turbo_stream: turbo_stream.update(@task, partial: "tasks/task", locals: { task: @task })
+          render turbo_stream: [ 
+            turbo_stream.update(@task, partial: "tasks/task", locals: { task: @task }),
+            turbo_stream.update("notice", html: "Task was successfully updated")
+          ]
         end
         format.html { redirect_to task_url(@task), notice: "Task was successfully updated." }
         format.json { render :show, status: :ok, location: @task }
@@ -77,7 +81,8 @@ class TasksController < ApplicationController
       format.turbo_stream do
         render turbo_stream: [
           turbo_stream.remove(@task),
-          turbo_stream.update("task_counter", html: Task.count)
+          turbo_stream.update("task_counter", html: Task.count),
+          turbo_stream.update("notice", html: "Task was successfully destroyed")
         ]
       end
       format.html { redirect_to tasks_url, notice: "Task was successfully destroyed." }
