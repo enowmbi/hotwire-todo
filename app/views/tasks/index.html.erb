@@ -2,7 +2,7 @@
   <p style="color: green"><%= notice %></p>
 
 
-  <h1 class="centre">Tasks</h1>
+  <h1 class="centre">Tasks <span id="task_counter"><%= @tasks.count %></span></h1>
 
   <div id="create_task_form">
     <%= render "form", task: Task.new %>
