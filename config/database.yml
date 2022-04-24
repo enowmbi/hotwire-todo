@@ -29,7 +29,7 @@ development:
   # To create additional roles in postgres see `$ createuser --help`.
   # When left blank, postgres will use the default role. This is
   # the same name as the operating system user running Rails.
-  #username: satellite_fellowship
+  #username: hotwire_todo_development
 
   # The password associated with the postgres role (username).
   #password:
@@ -81,6 +81,6 @@ test:
 #
 production:
   <<: *default
-  database: satellite_fellowship_production
-  username: satellite_fellowship
-  password: <%= ENV["SATELLITE_FELLOWSHIP_DATABASE_PASSWORD"] %>
+  database: hotwire_todo_production
+  username: hotwire_todo
+  password: <%= ENV["HOTWIRE_TODO_DATABASE_PASSWORD"] %>
