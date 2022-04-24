@@ -34,10 +34,10 @@ class TasksController < ApplicationController
             turbo_stream.update('create_task_form', partial:"tasks/form", locals: { task: Task.new }),
             turbo_stream.prepend("tasks", partial: "tasks/task", locals: { task: @task }),
             turbo_stream.update("task_counter", html: Task.count),
-            turbo_stream.update("notice", html:"Task was successfully created")
+            turbo_stream.update("notice", Constant::TASK_CREATED_MESSAGE)
           ]
         end
-        format.html { redirect_to task_url(@task), notice: "Task was successfully created." }
+        format.html { redirect_to task_url(@task), notice: Constant::TASK_CREATED_MESSAGE }
         format.json { render :show, status: :created, location: @task }
       else
         format.turbo_stream do
@@ -58,10 +58,10 @@ class TasksController < ApplicationController
         format.turbo_stream do
           render turbo_stream: [ 
             turbo_stream.update(@task, partial: "tasks/task", locals: { task: @task }),
-            turbo_stream.update("notice", html: "Task was successfully updated")
+            turbo_stream.update("notice", Constant::TASK_UPDATED_MESSAGE)
           ]
         end
-        format.html { redirect_to task_url(@task), notice: "Task was successfully updated." }
+        format.html { redirect_to task_url(@task), notice: Constant::TASK_UPDATED_MESSAGE }
         format.json { render :show, status: :ok, location: @task }
       else
         format.turbo_stream do
@@ -82,10 +82,10 @@ class TasksController < ApplicationController
         render turbo_stream: [
           turbo_stream.remove(@task),
           turbo_stream.update("task_counter", html: Task.count),
-          turbo_stream.update("notice", html: "Task was successfully destroyed")
+          turbo_stream.update("notice", Constant::TASK_DESTROYED_MESSAGE)
         ]
       end
-      format.html { redirect_to tasks_url, notice: "Task was successfully destroyed." }
+      format.html { redirect_to tasks_url, notice: Constant::TASK_DESTROYED_MESSAGE }
       format.json { head :no_content }
     end
   end
